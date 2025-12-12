@@ -1,0 +1,108 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+% Code listing style
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=1,
+    numbersep=5pt,
+    backgroundcolor=\color{gray!10},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    frame=single,
+    rulecolor=\color{black!30},
+    tabsize=2,
+    captionpos=b,
+    breaklines=true,
+    breakatwhitespace=false,
+    escapeinside={\%*}{*)}
+}
+
+\title{Implémentation des Algorithmes de Parcours de Graphes BFS et DFS}
+\author{}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Les algorithmes de parcours de graphes sont des techniques fondamentales en informatique utilisées pour explorer et traiter tous les sommets et arêtes d'un graphe. Deux des algorithmes de parcours de graphes les plus importants sont la \textbf{Recherche en Profondeur (DFS - Depth-First Search)} et la \textbf{Recherche en Largeur (BFS - Breadth-First Search)}.
+
+La \textbf{Recherche en Profondeur (DFS)} est un algorithme de parcours de graphe qui explore aussi loin que possible le long de chaque branche avant de revenir en arrière. Elle utilise une pile (implicitement par récursion) pour suivre les sommets à visiter. La DFS est particulièrement utile pour :
+\begin{itemize}
+    \item Trouver les composantes connexes d'un graphe
+    \item Détecter les cycles
+    \item Le tri topologique
+    \item Résoudre des puzzles et des labyrinthes
+\end{itemize}
+
+La \textbf{Recherche en Largeur (BFS)} est un algorithme de parcours de graphe qui explore tous les sommets au niveau de profondeur actuel avant de passer aux sommets du niveau suivant. Elle utilise une structure de données de type file (queue) pour gérer l'ordre d'exploration des sommets. La BFS est particulièrement utile pour :
+\begin{itemize}
+    \item Trouver le plus court chemin dans les graphes non pondérés
+    \item Trouver tous les nœuds à une certaine distance
+    \item Le parcours en largeur des arbres
+    \item L'analyse de réseaux sociaux
+\end{itemize}
+
+Ce document présente une implémentation complète en C des deux algorithmes utilisant une représentation par matrice d'adjacence d'un graphe non orienté. Le programme permet aux utilisateurs de saisir un graphe puis effectue les parcours DFS et BFS, affichant l'ordre dans lequel les sommets sont visités.
+
+\section{Implémentation du Code}
+
+Le code source complet se trouve dans le fichier \texttt{main.c}. Voici l'implémentation :
+
+\lstinputlisting[caption={Implémentation complète des algorithmes BFS et DFS (main.c)}]{main.c}
+
+\subsection{Explication du Code}
+
+L'implémentation se compose de plusieurs composants clés :
+
+\begin{itemize}
+    \item \textbf{Structures de données} : Le programme utilise une matrice d'adjacence \texttt{A[MAX][MAX]} pour représenter le graphe, et deux tableaux \texttt{visiteDFS} et \texttt{visiteBFS} pour suivre les sommets visités pour chaque algorithme.
+    
+    \item \textbf{Initialisation} : La fonction \texttt{initialiserMatrice} initialise toutes les entrées de la matrice d'adjacence à zéro, représentant un graphe vide.
+    
+    \item \textbf{Saisie du graphe} : La fonction \texttt{remplirMatrice} lit les informations sur les arêtes depuis l'utilisateur et remplit la matrice d'adjacence. Comme le graphe est non orienté, les arêtes sont stockées de manière symétrique.
+    
+    \item \textbf{Implémentation DFS} : La fonction \texttt{DFS} utilise la récursion pour implémenter le parcours en profondeur. Elle marque le sommet actuel comme visité, l'affiche, et explore récursivement tous les voisins non visités.
+    
+    \item \textbf{Implémentation BFS} : La fonction \texttt{BFS} utilise une file (implémentée comme un tableau) pour gérer l'ordre de parcours. Elle traite les sommets niveau par niveau, garantissant que tous les sommets à la profondeur actuelle sont visités avant de passer au niveau suivant.
+    
+    \item \textbf{Fonction principale} : La fonction main orchestre tout le processus : lecture de la saisie du graphe, affichage de la matrice d'adjacence, et exécution des parcours DFS et BFS sur toutes les composantes connexes.
+\end{itemize}
+
+\section{Conclusion}
+
+Cette implémentation démontre avec succès les deux algorithmes de parcours de graphes BFS et DFS en utilisant une représentation par matrice d'adjacence. Le programme fournit un outil pratique pour comprendre comment ces algorithmes fondamentaux fonctionnent et comment ils diffèrent dans leurs stratégies d'exploration.
+
+Observations clés de cette implémentation :
+
+\begin{itemize}
+    \item La \textbf{DFS} utilise une approche récursive (pile implicite) et explore en profondeur avant de revenir en arrière, ce qui la rend efficace en mémoire pour les graphes profonds mais potentiellement problématique pour les graphes très profonds en raison du débordement de pile.
+    
+    \item La \textbf{BFS} utilise une file explicite et explore niveau par niveau, garantissant le plus court chemin dans les graphes non pondérés mais nécessitant plus de mémoire pour les graphes larges.
+    
+    \item Les deux algorithmes gèrent les graphes non connexes en itérant sur tous les sommets et en démarrant un nouveau parcours depuis chaque sommet non visité.
+    
+    \item La représentation par matrice d'adjacence fournit un temps de recherche d'arête O(1) mais nécessite un espace O($n^2$), ce qui la rend adaptée aux graphes denses. Pour les graphes creux, une liste d'adjacence serait plus efficace en termes d'espace.
+\end{itemize}
+
+Le code est bien structuré, lisible, et sert d'excellente ressource pédagogique pour comprendre les algorithmes de parcours de graphes. Les améliorations futures pourraient inclure le support des graphes orientés, des arêtes pondérées, ou des représentations alternatives de graphes telles que les listes d'adjacence pour une meilleure efficacité spatiale avec les graphes creux.
+
+\end{document}
+
